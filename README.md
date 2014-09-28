@@ -1,4 +1,4 @@
-Spire Pack for Bitwig Studio
+Serum Pack for Bitwig Studio
 ================
 
 Xfer Records Serum VSTi factory presets and device panel mapping for Bitwig Studio.
