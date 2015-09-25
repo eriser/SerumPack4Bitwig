@@ -46,9 +46,9 @@ gulp.task 'rewrite_meta', ->
         $folder: path.relative $.rawPresetsDir, path.dirname file.path
       db.get $.query, params, cb
     .pipe rewrite (file, data) ->
-      creator: file.data.Author
-      preset_category: file.data.Category
-      comment: file.data.Description
+      creator: file.data.Author?.trim()
+      preset_category: file.data.Category?.trim()
+      comment: file.data.Description?.trim()
     .pipe gulp.dest $.distDir
     .on 'end', ->
       db.close()
