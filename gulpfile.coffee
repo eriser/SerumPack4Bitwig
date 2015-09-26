@@ -40,15 +40,16 @@ gulp.task 'rewrite_meta', ->
   # open database
   db = new sqlite3.Database $.serumPresetDB, sqlite3.OPEN_READONLY
   gulp.src ["#{$.rawPresetsDir}/**/*.bwpreset"], read: true
-    .pipe data (file, cb) ->
+    .pipe rewrite (file, data, done) ->
       params =
         $name: path.basename file.path, '.bwpreset'
         $folder: path.relative $.rawPresetsDir, path.dirname file.path
-      db.get $.query, params, cb
-    .pipe rewrite (file, data) ->
-      creator: file.data.Author?.trim()
-      preset_category: file.data.Category?.trim()
-      comment: file.data.Description?.trim()
+      db.get $.query, params, (err, row) ->
+        done undefined, {
+          creator: row.Author?.trim()
+          preset_category: row.Category?.trim()
+          comment: row.Description?.trim()
+        }
     .pipe gulp.dest $.distDir
     .on 'end', ->
       db.close()
